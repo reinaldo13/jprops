@@ -160,8 +160,8 @@ def _unescape(value):
       break
 
   # if not native string (e.g. PY2) try converting it back
-  # using 'basestring' to support older versions of Python
-  if not isinstance(value, basestring):
+  # using 'unicode' to support older versions of Python
+  if (not isinstance(value, str)) and (not isinstance(value, unicode)):
     try:
       value = value.encode('ascii')
     except UnicodeEncodeError:
