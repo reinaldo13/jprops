@@ -127,8 +127,8 @@ def test_unescape_unicode_escaped():
 
 
 def test_unescape_decodes_ascii_to_native_string():
-  assert type(jprops._unescape(b'x')) == str
-  assert type(jprops._unescape(b'\x7f')) == str
+  assert isinstance(jprops._unescape(b'x'), basestring)
+  assert isinstance(jprops._unescape(b'\x7f'), basestring)
 
 
 def test_unescape_decodes_latin1_to_unicode():

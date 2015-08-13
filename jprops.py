@@ -146,11 +146,22 @@ for c in '\\' + _COMMENT_CHARS + _KEY_TERMINATORS_EXPLICIT:
 
 
 def _unescape(value):
-  # all values required to be latin-1 encoded bytes
-  value = value.decode('latin-1')
+  # all values are required to be unicoded.
+  # try the following encodings in that specific order
+  encodings = ['utf-8', 'latin-1']
+  for encoding in encodings:
+    try:
+      value = value.decode(encoding)
+    except UnicodeDecodeError:
+      # can't decode, try the next available encoding
+      pass
+    else:
+      # found the correct encoding
+      break
 
   # if not native string (e.g. PY2) try converting it back
-  if not isinstance(value, str):
+  # using 'basestring' to support older versions of Python
+  if not isinstance(value, basestring):
     try:
       value = value.encode('ascii')
     except UnicodeEncodeError:
